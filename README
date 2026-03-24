@@ -1,0 +1,17 @@
+# Pang Round Bold
+
+一个开源、免费商用的胖圆粗体字体。
+
+## ✨ 特点
+- 圆润饱满
+- 粗体风格
+- 适合 UI / 标题 / GitHub 项目
+
+## 📦 使用
+直接引入：
+
+```css
+@font-face {
+  font-family: 'PangRoundBold';
+  src: url('./fonts/PangRoundBold-Regular.ttf');
+}
