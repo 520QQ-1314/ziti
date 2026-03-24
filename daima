@@ -1,0 +1,53 @@
+# src/pang_round_bold_full.py
+import fontforge
+import os
+
+font = fontforge.font()
+font.encoding = 'UnicodeFull'
+font.familyname = 'PangRoundBold'
+font.fontname = 'PangRoundBold-Regular'
+font.fullname = 'Pang Round Bold'
+
+def draw_round_rect(pen, x, y, w, h, r):
+    # 圆角矩形（更像真实字体）
+    pen.moveTo((x+r, y))
+    pen.lineTo((x+w-r, y))
+    pen.curveTo((x+w, y), (x+w, y), (x+w, y+r))
+    pen.lineTo((x+w, y+h-r))
+    pen.curveTo((x+w, y+h), (x+w, y+h), (x+w-r, y+h))
+    pen.lineTo((x+r, y+h))
+    pen.curveTo((x, y+h), (x, y+h), (x, y+h-r))
+    pen.lineTo((x, y+r))
+    pen.curveTo((x, y), (x, y), (x+r, y))
+    pen.closePath()
+
+# 英文+数字
+chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+
+for c in chars:
+    g = font.createChar(ord(c))
+    pen = g.glyphPen()
+    draw_round_rect(pen, 100, 0, 800, 700, 180)
+    g.width = 1000
+
+# 标点
+punct = ".,!?;:()[]{}+-*/="
+for c in punct:
+    g = font.createChar(ord(c))
+    pen = g.glyphPen()
+    draw_round_rect(pen, 300, 200, 400, 300, 120)
+    g.width = 1000
+
+# 常用汉字（可扩展）
+for codepoint in range(0x4E00, 0x4E50):
+    g = font.createChar(codepoint)
+    pen = g.glyphPen()
+    draw_round_rect(pen, 100, 0, 800, 700, 150)
+    g.width = 1000
+
+os.makedirs("fonts", exist_ok=True)
+
+font.generate("fonts/PangRoundBold-Regular.ttf")
+font.generate("fonts/PangRoundBold-Regular.otf")
+
+print("✅ 字体生成完成")
